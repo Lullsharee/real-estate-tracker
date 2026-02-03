@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Property {
+  id                    String   @id @default(cuid())
+  type                  String
+  region                String
+  municipalityCode      String
+  prefecture            String
+  municipality          String
+  districtName          String
+  nearestStation        String?
+  timeToNearestStation  String?
+  tradePrice            Int
+  pricePerUnit          Int?
+  floorPlan             String?
+  area                  Float
+  unitPrice             Int?
+  buildingYear          String?
+  structure             String?
+  period                String
+  tradePricePerTsubo    Int?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([prefecture, municipality, districtName])
+  @@index([period])
+  @@index([nearestStation])
+}
+
+model PropertyStats {
+  id                      String   @id @default(cuid())
+  period                  String
+  prefecture              String
+  municipality            String
+  districtName            String?
+  averagePrice            Float
+  medianPrice             Float
+  averagePricePerTsubo    Float
+  medianPricePerTsubo     Float
+  count                   Int
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@unique([period, prefecture, municipality, districtName])
+  @@index([prefecture, municipality])
+}
