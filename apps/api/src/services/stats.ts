@@ -5,7 +5,7 @@ export {median, average};
 
 /** エリア別統計を計算してDBに保存 */
 export async function calculateStats(): Promise<{count: number}> {
-  const properties = await prisma.property.findMany({
+  const raw = await prisma.property.findMany({
     select: {
       period: true,
       prefecture: true,
@@ -15,6 +15,12 @@ export async function calculateStats(): Promise<{count: number}> {
       tradePricePerTsubo: true,
     },
   });
+
+  const properties = raw.map((p) => ({
+    ...p,
+    tradePrice: Number(p.tradePrice),
+    tradePricePerTsubo: p.tradePricePerTsubo ? Number(p.tradePricePerTsubo) : null,
+  }));
 
   const statsGroups = calculateStatsFromProperties(properties);
 

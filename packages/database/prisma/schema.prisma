@@ -17,7 +17,7 @@ model Property {
   districtName          String
   nearestStation        String?
   timeToNearestStation  String?
-  tradePrice            Int
+  tradePrice            BigInt
   pricePerUnit          Int?
   floorPlan             String?
   area                  Float
@@ -25,7 +25,7 @@ model Property {
   buildingYear          String?
   structure             String?
   period                String
-  tradePricePerTsubo    Int?
+  tradePricePerTsubo    BigInt?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
